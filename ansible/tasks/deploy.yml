@@ -1,0 +1,11 @@
+---
+- include_tasks: deploy/bootstrap.yml
+- meta: flush_handlers
+- name: Set Python interpreter to python3 for use by subsequent tasks.
+  set_fact:
+    ansible_python_interpreter: /usr/bin/python3 
+- include_tasks: deploy/postfix.yml
+- include_tasks: deploy/ssl.yml
+- include_tasks: deploy/nginx.yml
+- include_tasks: deploy/logrotate.yml
+- include_tasks: deploy/gophish.yml

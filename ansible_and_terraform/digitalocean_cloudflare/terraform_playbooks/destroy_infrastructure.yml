@@ -1,0 +1,43 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - ../defaults/main.yml
+    - ../defaults/secrets.yml
+  tasks:
+    - name: Gathering facts.
+      terraform:
+        project_path: terraform/
+        variables:
+          root_ssh_key_path: "{{ root_private_key_path }}"
+          cf_host_fqdn: "{{ server_hostname }}"
+          cf_host_phishlets: "{{ server_phishlet_hostname }}"          
+          cf_api_token: "{{ cf_api_token }}"
+          cf_zone_id: "{{ cf_zone_id }}"
+          do_token: "{{ do_token }}"
+          do_name: "{{ do_name }}"
+          do_private_networking: "true"
+        force_init: yes
+      register: terraform
+
+    - name: Remove {{ terraform.outputs.droplet_ipv4_address.value }} from SSH known hosts.
+      local_action: shell ssh-keygen -R {{ terraform.outputs.droplet_ipv4_address.value }}
+
+    - name: Ensure droplet is destroyed with terraform
+      terraform:
+        project_path: terraform/
+        variables:
+          cf_host_fqdn: "{{ server_hostname }}"
+          cf_host_phishlets: "{{ server_phishlet_hostname }}"          
+          cf_api_token: "{{ cf_api_token }}"
+          cf_zone_id: "{{ cf_zone_id }}"
+          do_token: "{{ do_token }}"
+        state: absent
+      register: terraform
+
+    - name: Ensure local ssh keys are destroyed
+      file:
+        path: "{{ sshkey_folder }}/{{ item }}-{{ do_name }}"
+        state: absent
+      with_items:
+        - "{{ root_username }}"

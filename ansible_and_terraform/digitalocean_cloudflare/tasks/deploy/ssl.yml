@@ -1,0 +1,11 @@
+---
+- include_role:
+    name: geerlingguy.pip
+  vars:
+    pip_package: python3-pip
+- include_role:
+    name: robertdebock.openssl
+  vars:
+    openssl_items:
+      - name: "{{ server_phishlet_hostname }}"
+        common_name: "{{ server_phishlet_hostname }}"

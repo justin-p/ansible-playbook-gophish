@@ -1,0 +1,14 @@
+---
+- import_playbook: terraform_playbooks/deploy_infrastructure.yml
+- hosts: gophish
+  vars_files:
+    - vars/main.yml
+    - defaults/main.yml
+  vars:
+    ansible_user: "{{ root_username }}"
+    ansible_ssh_private_key_file: "{{ root_private_key_path }}"
+  tasks:
+    - include_tasks: tasks/requirements.yml 
+    - include_tasks: tasks/deploy.yml
+- import_playbook: terraform_playbooks/destroy_infrastructure.yml
+  tags: ['never', 'destroy']

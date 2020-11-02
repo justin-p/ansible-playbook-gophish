@@ -1,0 +1,61 @@
+---
+- include_role:
+    name: nginxinc.nginx
+  vars:
+    nginx_selinux: true
+    nginx_selinux_tcp_ports:
+      - 80
+      - 443
+    nginx_logrotate_conf_enable: true
+- include_role:
+    name: nginxinc.nginx_config
+  vars:
+    nginx_config_http_template_enable: true
+    nginx_config_http_template:
+      default:
+        servers:
+          gophish_http_server:
+            listen:
+              listen_80:
+                port: 80
+            server_name: "{{ server_phishlet_hostname }}"
+            https_redirect: "{{ server_phishlet_hostname }}"
+          gophish_https_server:
+            listen:
+              listen_443:
+                port: 443
+                ssl: true
+            server_name: "{{ server_phishlet_hostname }}"
+            ssl:
+              cert: "{{ openssl_crt_directory }}/{{ server_phishlet_hostname }}.crt"
+              key: "{{ openssl_key_directory }}/{{ server_phishlet_hostname }}.key"
+            reverse_proxy:
+              locations:
+                backend:
+                  location: /
+                  proxy_connect_timeout: null
+                  proxy_pass: http://gophish
+                  proxy_set_header:
+                    header_host:
+                      name: Host
+                      value: $host
+                    header_x_real_ip:
+                      name: X-Real-IP
+                      value: $remote_addr
+                    header_x_forwarded_for:
+                      name: X-Forwarded-For
+                      value: $proxy_add_x_forwarded_for
+                    header_x_forwarded_host:
+                      name: X-Forwarded-Host
+                      value: $server_name
+                  proxy_ignore_headers:
+                    - Vary
+                    - Cache-Control
+        upstreams:
+          upstream1:
+            name: gophish
+            servers:
+              server1:
+                address: localhost
+                port: 8080
+                weight: 1

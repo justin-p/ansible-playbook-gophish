@@ -1,0 +1,6 @@
+---
+gophish:
+  hosts:
+    1.2.3.4: # change to ip of host
+      ansible_ssh_private_key_file: /home/user/.ssh/keyname
+      ansible_user: root

@@ -1,0 +1,3 @@
+---
+- name: Get required roles with ansible galaxy
+  local_action: command ansible-galaxy install -r files/requirements.yml -p roles/

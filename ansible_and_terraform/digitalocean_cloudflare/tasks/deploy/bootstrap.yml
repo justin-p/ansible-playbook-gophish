@@ -1,0 +1,33 @@
+---
+- include_role:
+    name: robertdebock.update_package_cache
+  tags: molecule-idempotence-notest
+- include_role:
+    name: robertdebock.bootstrap
+- include_role:
+    name: robertdebock.epel           
+- include_role:
+    name: robertdebock.update
+  vars:
+    update_reboot: no
+- include_role:
+    name: robertdebock.firewall
+  vars:
+    firewall_services:
+      - name: ssh
+      - name: http
+      - name: https
+- include_role:
+    name: robertdebock.users
+  vars:
+    users_group_list:
+      - name: gophish
+    users_user_list:
+      - name: "{{ gophish_service_account }}"
+        group: "{{ gophish_service_account_group }}"
+        cron_allow: no
+- include_role:
+    name: robertdebock.hostname
+  vars:
+    hostname: "{{ server_hostname }}"
+    hostname_reboot: yes

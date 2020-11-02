@@ -1,0 +1,7 @@
+---
+- include_role: 
+    name: justin_p.gophish
+  vars:
+    gophish_install_destination: /opt/gophish
+    gophish_user: "{{ gophish_service_account }}"
+    gophish_config_template_source: "{{ playbook_dir }}/templates/config.json.j2"

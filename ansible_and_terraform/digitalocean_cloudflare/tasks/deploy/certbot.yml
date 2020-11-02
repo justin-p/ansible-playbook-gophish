@@ -1,0 +1,7 @@
+- include_role: 
+     name: robertdebock.certbot
+  vars:
+    certbot_email: "{{ cerbot_contact_mail }}"
+    certbot_system: nginx
+    certbot_domains:
+      - "{{ server_phishlet_hostname }}"

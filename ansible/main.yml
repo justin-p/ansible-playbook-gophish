@@ -1,0 +1,8 @@
+---
+- hosts: gophish
+  vars_files:
+    - vars/main.yml
+    - defaults/main.yml
+  tasks:
+    - import_tasks: tasks/requirements.yml
+    - include_tasks: tasks/deploy.yml    
