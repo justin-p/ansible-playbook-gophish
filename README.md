@@ -1,6 +1,6 @@
 # ansible-playbook-gophish
 
-W.I.P. Automation for gophish.
+A W.I.P. collection of Ansible Playbooks that deploy Gophish, including the provision of hosts and DNS records using Terraform. 
 
 ## Ansible
 
