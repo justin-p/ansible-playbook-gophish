@@ -37,6 +37,7 @@ Will configure the following items to a existing host:
 
 Will create a fresh ubuntu 20.04 droplet and configure the following things:
 
+- Generates unique SSH keys for each deployment.
 - Setup basic DNS with CloudFlare.
 - Setup up a DigitalOcean Project.
 - Setup up a DigitalOcean Firewall that 
