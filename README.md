@@ -6,7 +6,8 @@ W.I.P. Automation for gophish.
 
 Will configure the following items to a existing host:
 
-- Any needed packages for Ansible management.
+- Installs any needed roles locally with ansible-galaxy.
+- Installs any needed packages for Ansible management.
 - Update installed packages to latest version.
 - Setup Firewall (allows in 22, 80 ,443)
 - Create user for gophish service.
@@ -37,10 +38,13 @@ Will configure the following items to a existing host:
 Will create a fresh ubuntu 20.04 droplet and configure the following things:
 
 - Setup basic DNS with CloudFlare.
+- Setup up a DigitalOcean Project.
 - Setup up a DigitalOcean Firewall that 
   - allows in 22 from `"0.0.0.0/0", "::/0"`
   - allows 80, 443 in from CloudFlare IP ranges.
-- Any needed packages for Ansible management.
+- Setup up a DigitalOcean Droplet.
+- Installs any needed roles locally with ansible-galaxy.
+- Installs any needed packages for Ansible management.
 - Update installed packages to latest version.
 - Setup Firewall (allows in 22, 80 ,443)
 - Create user for gophish service.
