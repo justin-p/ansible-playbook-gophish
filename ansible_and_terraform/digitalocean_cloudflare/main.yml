@@ -1,5 +1,6 @@
 ---
-- import_playbook: terraform_playbooks/deploy_infrastructure.yml
+- import_playbook: terraform_playbooks/deploy_droplet.yml
+- import_playbook: terraform_playbooks/deploy_dns.yml
 - hosts: gophish
   vars_files:
     - vars/main.yml

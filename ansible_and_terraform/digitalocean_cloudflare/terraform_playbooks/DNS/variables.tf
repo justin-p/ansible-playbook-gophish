@@ -27,3 +27,13 @@ variable "cf_record_proxied" {
   description = "Boolean to enable or disable the cloudflare proxy."
   default     = true
 }
+
+variable "cf_host_ipv4" {
+  description = "IP address used to point records to."
+  default     = "0.0.0.0"
+}
+
+variable "cf_host_ipv6" {
+  description = "IP address used to point records to."
+  default     = "::/0"
+}

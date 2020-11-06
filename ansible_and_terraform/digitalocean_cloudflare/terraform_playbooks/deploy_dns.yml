@@ -1,0 +1,39 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../defaults/main.yml
+    - ../defaults/secrets.yml
+  tasks:
+    - name: Gathering facts.
+      terraform:
+        project_path: infrastructure/
+        variables:
+          root_ssh_key_path: "{{ root_private_key_path }}"
+          do_token: "{{ do_token }}"
+          do_name: "{{ do_name }}"
+        force_init: yes
+      register: terraform_facts
+
+    - name: Ensure DNS is deployed with terraform.
+      terraform:
+        project_path: DNS/
+        variables:
+          cf_host_ipv4: "{{ terraform_facts.outputs.droplet_ipv4_address.value }}"
+          cf_host_ipv6: "{{ terraform_facts.outputs.droplet_ipv6_address.value }}"
+          cf_host_fqdn: "{{ server_hostname }}"
+          cf_host_phishlets: "{{ server_phishlet_hostname }}"          
+          cf_api_token: "{{ cf_api_token }}"
+          cf_zone_id: "{{ cf_zone_id }}"
+        force_init: yes
+
+    - name: Add deployed host to ansible inventory.
+      add_host:
+        hostname: "{{ terraform_infra.outputs.droplet_ipv4_address.value }}"
+        groups: gophish
+      changed_when: False
+
+    - name: Remove {{ terraform_infra.outputs.droplet_ipv4_address.value }} from SSH known hosts.
+      local_action: shell ssh-keygen -R {{ terraform_infra.outputs.droplet_ipv4_address.value }}
+
+    - name: Add {{ terraform_infra.outputs.droplet_ipv4_address.value }} to SSH known hosts.
+      local_action: shell ssh-keyscan -H {{ terraform_infra.outputs.droplet_ipv4_address.value }} >> ~/.ssh/known_hosts

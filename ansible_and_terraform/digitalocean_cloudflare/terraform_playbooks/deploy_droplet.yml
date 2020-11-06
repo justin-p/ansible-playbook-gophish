@@ -17,18 +17,6 @@
           root_ssh_key_path: "{{ root_private_key_path }}"
           do_token: "{{ do_token }}"
           do_name: "{{ do_name }}"
-          do_private_networking: "true"
-        force_init: yes
-      register: terraform_infra
-
-    - name: Ensure DNS is deployed with terraform.
-      terraform:
-        project_path: infrastructure/
-        variables:
-          cf_host_fqdn: "{{ server_hostname }}"
-          cf_host_phishlets: "{{ server_phishlet_hostname }}"          
-          cf_api_token: "{{ cf_api_token }}"
-          cf_zone_id: "{{ cf_zone_id }}"
         force_init: yes
       register: terraform_infra
 
