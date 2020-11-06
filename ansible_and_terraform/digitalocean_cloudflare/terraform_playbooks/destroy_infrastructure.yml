@@ -7,33 +7,34 @@
   tasks:
     - name: Gathering facts.
       terraform:
-        project_path: terraform/
+        project_path: infrastructure/
         variables:
           root_ssh_key_path: "{{ root_private_key_path }}"
-          cf_host_fqdn: "{{ server_hostname }}"
-          cf_host_phishlets: "{{ server_phishlet_hostname }}"          
-          cf_api_token: "{{ cf_api_token }}"
-          cf_zone_id: "{{ cf_zone_id }}"
           do_token: "{{ do_token }}"
           do_name: "{{ do_name }}"
           do_private_networking: "true"
         force_init: yes
-      register: terraform
+      register: terraform_infra
 
-    - name: Remove {{ terraform.outputs.droplet_ipv4_address.value }} from SSH known hosts.
-      local_action: shell ssh-keygen -R {{ terraform.outputs.droplet_ipv4_address.value }}
+    - name: Remove {{ terraform_infra.outputs.droplet_ipv4_address.value }} from SSH known hosts.
+      local_action: shell ssh-keygen -R {{ terraform_infra.outputs.droplet_ipv4_address.value }}
 
     - name: Ensure droplet is destroyed with terraform
       terraform:
-        project_path: terraform/
+        project_path: infrastructure/
+        variables:
+          do_token: "{{ do_token }}"
+        state: absent
+
+    - name: Ensure CloudFlare DNS is destroyed with terraform
+      terraform:
+        project_path: DNS/
         variables:
           cf_host_fqdn: "{{ server_hostname }}"
           cf_host_phishlets: "{{ server_phishlet_hostname }}"          
           cf_api_token: "{{ cf_api_token }}"
           cf_zone_id: "{{ cf_zone_id }}"
-          do_token: "{{ do_token }}"
         state: absent
-      register: terraform
 
     - name: Ensure local ssh keys are destroyed
       file:
