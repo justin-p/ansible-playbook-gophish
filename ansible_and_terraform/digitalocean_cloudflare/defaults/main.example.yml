@@ -6,6 +6,7 @@ do_name: gophish-deployment
 domain: gophish.local
 server_hostname: mail.{{ domain }}
 server_phishlet_hostname: phishlet.{{ domain }}
+cf_proxied: "true"
 gophish_service_account: gophish
 gophish_service_account_group: "{{ gophish_service_account }}"
 

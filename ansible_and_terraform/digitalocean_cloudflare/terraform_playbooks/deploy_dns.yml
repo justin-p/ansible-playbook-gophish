@@ -21,6 +21,7 @@
           cf_host_ipv4: "{{ terraform_facts.outputs.droplet_ipv4_address.value }}"
           cf_host_ipv6: "{{ terraform_facts.outputs.droplet_ipv6_address.value }}"
           cf_host_fqdn: "{{ server_hostname }}"
+          cf_record_proxied: "{{ cf_proxied }}"
           cf_host_phishlets: "{{ server_phishlet_hostname }}"          
           cf_api_token: "{{ cf_api_token }}"
           cf_zone_id: "{{ cf_zone_id }}"
