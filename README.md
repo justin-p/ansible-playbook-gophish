@@ -82,3 +82,49 @@ Will create a fresh ubuntu 20.04 droplet and configure the following things:
    - `ansible-playbook main.yml`
 5. Destroy the infrastructure
    - `ansible-playbook main.yml --tags=destroy`
+
+### Deploy on Hetzer with CloudFlare DNS  
+
+Will create a fresh ubuntu 20.04 droplet and configure the following things:
+
+- Generates unique SSH keys for each deployment.
+- Setup basic DNS with CloudFlare.
+- Setup up a hetzer VPS with correct Reverse DNS.
+- Installs any needed roles locally with ansible-galaxy.
+- Installs any needed packages for Ansible management.
+- Update installed packages to latest version.
+- Setup Firewall (allows in 22, 80 ,443)
+- Create user for gophish service.
+- Update the hostname.
+- Postfix for mail relay.
+- Selfsigned SSL certs (for fallback).
+- NGINX for phishlets.
+- Generate Certificates with certbot and setup auto renewal.
+- Logrotate for gophish.
+- Install gophish as a service.
+
+0. Ensure Ansible and Terraform are installed.
+
+1. Copy `defaults/main.example.yml` to `defaults/main.yml`
+   - Set the correct SSH key folder. (`sshkey_folder`)
+   - Set the correct contact mail for certbot (`cerbot_contact_mail`)
+   - Set the name for the vps (`vps_name`)
+   - Set `domain` to your root domain.
+   - Set `server_hostname` to the desired server hostname.
+   - Set `server_phishlet_hostname` to the desired name NGINX will proxy to gophish for phishlets.
+   - Update if desired, user and group created to run gophish as `gophish_service_account` and `gophish_service_account_group`
+   - Other vars should work as is.
+2. Copy `defaults/secrets.example.yml` to `defaults/secrets.yml`
+   - Update `cf_api_token` to your CloudFlare API token (https://dash.cloudflare.com/profile/api-tokens).
+     - Account Settings -> Read
+     - All zones
+       - Zone -> Read
+       - DNS -> Edit
+   - Update `cf_zone_id` to your CloudFlare Zone ID. (https://dash.cloudflare.com/\*id\*/\*domain_name\*)
+   - Update `hetzer_token` to your hetzer API token (https://console.hetzner.cloud/projects/\*id\*/security/tokens).
+   - OPTIONAL BUT RECOMMENDED: Encrypt the `secret.yml` file with [Ansible Vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html#encrypting-files-with-ansible-vault).
+3. Not all Terraform variables are currently 'made available' as Ansible variables. For now they can be overwritten by updating `terraform_playbooks\terraform\variables.tf`.
+4. Deploy and configure the infrastucture
+   - `ansible-playbook main.yml`
+5. Destroy the infrastructure
+   - `ansible-playbook main.yml --tags=destroy`
