@@ -1,0 +1,44 @@
+---
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - ../defaults/main.yml
+    - ../defaults/secrets.yml
+  tasks:
+    - name: Gathering facts.
+      terraform:
+        project_path: infrastructure/
+        variables:
+          root_ssh_key_path: "{{ root_private_key_path }}"
+          hetzer_token: "{{ hetzer_token }}"
+          name: "{{ vps_name }}"
+        force_init: yes
+      register: terraform_infra
+
+    - name: Remove {{ terraform_infra.outputs.vps_ipv4_address.value }} from SSH known hosts.
+      local_action: shell ssh-keygen -R {{ terraform_infra.outputs.vps_ipv4_address.value }}
+
+    - name: Ensure droplet is destroyed with terraform
+      terraform:
+        project_path: infrastructure/
+        variables:
+          hetzer_token: "{{ hetzer_token }}"
+          name: "{{ vps_name }}"
+        state: absent
+
+    - name: Ensure CloudFlare DNS is destroyed with terraform
+      terraform:
+        project_path: DNS/
+        variables:
+          cf_host_fqdn: "{{ server_hostname }}"
+          cf_host_phishlets: "{{ server_phishlet_hostname }}"          
+          cf_api_token: "{{ cf_api_token }}"
+          cf_zone_id: "{{ cf_zone_id }}"
+        state: absent
+
+    - name: Ensure local ssh keys are destroyed
+      file:
+        path: "{{ sshkey_folder }}/{{ item }}-{{ vps_name }}"
+        state: absent
+      with_items:
+        - "{{ root_username }}"

@@ -1,0 +1,8 @@
+---
+- include_role:
+    name: robertdebock.cron
+- include_role:
+    name: robertdebock.logrotate
+  vars:
+    - name: gophish
+      path: "/var/log/gophish/*.log"
