@@ -9,7 +9,7 @@ Will configure the following items to a existing host:
 - Installs any needed roles locally with ansible-galaxy.
 - Installs any needed packages for Ansible management.
 - Update installed packages to latest version.
-- Setup Firewall (allows in 22, 80 ,443)
+- Setup Firewall (allows in 22, 80, 443)
 - Create user for gophish service.
 - Update the hostname.
 - Postfix for mail relay.
@@ -102,7 +102,7 @@ Will create a fresh ubuntu 20.04 droplet and configure the following things:
 - Installs any needed roles locally with ansible-galaxy.
 - Installs any needed packages for Ansible management.
 - Update installed packages to latest version.
-- Setup Firewall (allows in 22, 80 ,443)
+- Setup Firewall (allows in 22, 80, 443)
 - Create user for gophish service.
 - Update the hostname.
 - Postfix for mail relay.
