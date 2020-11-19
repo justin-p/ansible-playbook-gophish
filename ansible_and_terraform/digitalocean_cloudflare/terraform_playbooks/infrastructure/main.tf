@@ -1,5 +1,5 @@
 resource "digitalocean_ssh_key" "main" {
-  name       = "${var.do_name}-${var.root_username}"
+  name       = "${var.name}-${var.root_username}"
   public_key = file("${var.root_ssh_key_path}.pub")
 }
 
@@ -8,7 +8,7 @@ resource "digitalocean_tag" "main" {
 }
 
 resource "digitalocean_project" "main" {
-  name        = var.do_name
+  name        = var.name
   description = var.do_description
   purpose     = "Other"
   resources   = [digitalocean_droplet.main.urn]
@@ -17,7 +17,7 @@ resource "digitalocean_project" "main" {
 resource "digitalocean_droplet" "main" {
   image              = var.do_image
   tags               = [digitalocean_tag.main.id]
-  name               = var.do_name
+  name               = "server-${local.name}"
   region             = var.do_region
   size               = var.do_size
   ipv6               = var.do_ipv6
@@ -42,7 +42,7 @@ resource "digitalocean_firewall" "main" {
   depends_on  = [digitalocean_tag.main]
   tags        = [digitalocean_tag.main.id]
   droplet_ids = [digitalocean_droplet.main.id]
-  name        = var.do_name
+  name        = var.name
 
   inbound_rule {
     protocol         = "tcp"

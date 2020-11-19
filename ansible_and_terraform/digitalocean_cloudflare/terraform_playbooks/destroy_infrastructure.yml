@@ -11,13 +11,13 @@
         variables:
           root_ssh_key_path: "{{ root_private_key_path }}"
           do_token: "{{ do_token }}"
-          do_name: "{{ do_name }}"
+          name: "{{ vps_name }}"
           do_private_networking: "true"
         force_init: yes
       register: terraform_infra
 
-    - name: Remove {{ terraform_infra.outputs.droplet_ipv4_address.value }} from SSH known hosts.
-      local_action: shell ssh-keygen -R {{ terraform_infra.outputs.droplet_ipv4_address.value }}
+    - name: Remove {{ terraform_infra.outputs.vps_ipv4_address.value }} from SSH known hosts.
+      local_action: shell ssh-keygen -R {{ terraform_infra.outputs.vps_ipv4_address.value }}
 
     - name: Ensure droplet is destroyed with terraform
       terraform:
@@ -38,7 +38,7 @@
 
     - name: Ensure local ssh keys are destroyed
       file:
-        path: "{{ sshkey_folder }}/{{ item }}-{{ do_name }}"
+        path: "{{ sshkey_folder }}/{{ item }}-{{ vps_name }}"
         state: absent
       with_items:
         - "{{ root_username }}"

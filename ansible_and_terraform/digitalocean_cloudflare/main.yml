@@ -1,5 +1,5 @@
 ---
-- import_playbook: terraform_playbooks/deploy_droplet.yml
+- import_playbook: terraform_playbooks/deploy_vps.yml
 - import_playbook: terraform_playbooks/deploy_dns.yml
 - hosts: gophish
   vars_files:
