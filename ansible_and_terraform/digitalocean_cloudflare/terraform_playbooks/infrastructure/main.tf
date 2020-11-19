@@ -15,11 +15,11 @@ resource "digitalocean_project" "main" {
 }
 
 resource "digitalocean_droplet" "main" {
-  image              = var.do_image
+  image              = var.image
   tags               = [digitalocean_tag.main.id]
   name               = "server-${local.name}"
-  region             = var.do_region
-  size               = var.do_size
+  region             = var.location
+  size               = var.server_type
   ipv6               = var.do_ipv6
   monitoring         = var.do_monitoring
   private_networking = var.do_private_networking

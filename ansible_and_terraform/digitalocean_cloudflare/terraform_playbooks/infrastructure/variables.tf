@@ -27,6 +27,20 @@ variable "do_token" {
   default     = "123465789"
 }
 
+variable "image" {
+  description = "The image to use when creating the VPS"
+  default     = "ubuntu-20-04-x64"
+}
+variable "location" {
+  description = "Region to create VPS in"
+  default     = "ams3"
+}
+
+variable "server_type" {
+  description = "VPS Size"
+  default     = "s-1vcpu-1gb"
+}
+
 variable "do_tag" {
   description = "Tag added to the DigitalOcean Droplet"
   default     = "ansible_terra_server"
@@ -35,11 +49,6 @@ variable "do_tag" {
 variable "do_description" {
   description = "Description of the new to the DigitalOcean Droplet"
   default     = "Server deployed with Terraform and Ansible"
-}
-
-variable "do_image" {
-  description = "The image to use when creating the droplet"
-  default     = "ubuntu-20-04-x64"
 }
 
 variable "do_ipv6" {
@@ -55,16 +64,6 @@ variable "do_monitoring" {
 variable "do_private_networking" {
   description = "Enable or disable private networking"
   default     = true
-}
-
-variable "do_region" {
-  description = "Region to create droplet in"
-  default     = "ams3"
-}
-
-variable "do_size" {
-  description = "Droplet Size"
-  default     = "s-1vcpu-1gb"
 }
 
 variable "do_man_ip" {

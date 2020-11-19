@@ -62,7 +62,7 @@ Will create a fresh ubuntu 20.04 droplet and configure the following things:
 1. Copy `defaults/main.example.yml` to `defaults/main.yml`
    - Set the correct SSH key folder. (`sshkey_folder`)
    - Set the correct contact mail for certbot (`cerbot_contact_mail`)
-   - Set the name for the droplet (`do_name`)
+   - Set the name for the VPS (`vps_name`)
    - Set `domain` to your root domain.
    - Set `server_hostname` to the desired server hostname.
    - Set `server_phishlet_hostname` to the desired name NGINX will proxy to gophish for phishlets.

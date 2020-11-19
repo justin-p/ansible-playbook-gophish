@@ -9,7 +9,7 @@ variable "cf_zone_id" {
 }
 
 variable "cf_domain" {
-  description = "The FQDN of your server cloudflare is going to create a A and AAAA record for"
+  description = "Your root domainname"
   default     = "domain.tld"
 }
 

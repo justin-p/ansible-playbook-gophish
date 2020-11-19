@@ -1,4 +1,3 @@
-
 variable "cf_api_token" {
   description = "Your cloudflare API token generated from here https://dash.cloudflare.com/*id*/profile/api-tokens"
   default     = "123456789"
@@ -10,7 +9,7 @@ variable "cf_zone_id" {
 }
 
 variable "cf_domain" {
-  description = "The FQDN of your server cloudflare is going to create a A and AAAA record for"
+  description = "Your root domainname"
   default     = "domain.tld"
 }
 
