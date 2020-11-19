@@ -30,7 +30,12 @@ Will configure the following items to a existing host:
    - Set `server_phishlet_hostname` to the desired name NGINX will proxy to gophish for phishlets.
    - Update if desired, user and group created to run gophish as `gophish_service_account` and `gophish_service_account_group`
 3. Run Playbook
-
+   - `ansible-playbook main.yml --inventory inventory.yml`
+4. Login to gophish
+   - `ssh -L 3333:127.0.0.1:3333 user@ip`
+   - Use your favorite browser and open https://localhost:3333
+   - Login using the credentials given to you by the ansible output.
+   
 ## Ansible and Terraform  
 
 ### Deploy on DigitalOcean with CloudFlare DNS  
@@ -80,7 +85,11 @@ Will create a fresh ubuntu 20.04 droplet and configure the following things:
 3. Not all Terraform variables are currently 'made available' as Ansible variables. For now they can be overwritten by updating `terraform_playbooks\terraform\variables.tf`.
 4. Deploy and configure the infrastucture
    - `ansible-playbook main.yml`
-5. Destroy the infrastructure
+5. Login to gophish
+   - `ssh -L 3333:127.0.0.1:3333 user@ip`
+   - Use your favorite browser and open https://localhost:3333
+   - Login using the credentials given to you by the ansible output.   
+6. Destroy the infrastructure
    - `ansible-playbook main.yml --tags=destroy`
 
 ### Deploy on Hetzer with CloudFlare DNS  
@@ -126,5 +135,9 @@ Will create a fresh ubuntu 20.04 droplet and configure the following things:
 3. Not all Terraform variables are currently 'made available' as Ansible variables. For now they can be overwritten by updating `terraform_playbooks\terraform\variables.tf`.
 4. Deploy and configure the infrastucture
    - `ansible-playbook main.yml`
-5. Destroy the infrastructure
+5. Login to gophish
+   - `ssh -L 3333:127.0.0.1:3333 user@ip`
+   - Use your favorite browser and open https://localhost:3333
+   - Login using the credentials given to you by the ansible output.      
+6. Destroy the infrastructure
    - `ansible-playbook main.yml --tags=destroy`
