@@ -13,7 +13,7 @@
 - name: robertdebock.users
   version: 4.4.0
 - name: robertdebock.firewall
-  version: 3.2.8
+  version: 5.0.1
 - name: robertdebock.hostname
   version: 2.0.7
 - name: geerlingguy.postfix
