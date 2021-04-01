@@ -31,6 +31,9 @@
 - src: https://github.com/robertdebock/ansible-role-openssl
   name: robertdebock.openssl
   version: 2.0.0
+- src: https://github.com/robertdebock/ansible-role-certbot
+  name: robertdebock.certbot
+  version: 2.1.0
 - src: https://github.com/nginxinc/ansible-role-nginx
   name: nginxinc.nginx
   version: 0.17.2
@@ -44,5 +47,5 @@
   name: robertdebock.logrotate
   version: 2.0.0
 - src: https://github.com/justin-p/ansible-role-gophish
-- name: justin_p.gophish
+  name: justin_p.gophish
   version: 1.0.5
