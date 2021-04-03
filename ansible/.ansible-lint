@@ -5,7 +5,9 @@ exclude_paths:
   - .github/
   - molecule/
   - .cache/
+  - ${HOME}/.ansible/roles/  
 skip_list:
+  - experimental
   - '301'
   - '401'
   - '403'
